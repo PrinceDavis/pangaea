@@ -9,10 +9,10 @@
     "watch-ts": "tsc -w",
     "start": "yarn serve",
     "serve": "node dist/src/app.js",
-    "tslint": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts --fix",
     "watch-node": "nodemon dist/src/app.js",
     "watch-test": "yarn test -- --watchAll ",
-    "build": "yarn tslint && yarn build-ts && yarn test",
+    "build": "yarn lint && yarn build-ts && yarn test",
     "test": "jest --forceExit --coverage --verbose --detectOpenHandles --testTimeout=10000",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"yarn watch-ts\" \"yarn  watch-node\""
   },
@@ -35,9 +35,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn watch",
+      "pre-commit": "yarn build",
       "pre-push": "yarn build"
     }
+  },
+  "lint-staged": {
+    "*": "yarn lint"
   },
   "dependencies": {
     "eslint-config-prettier": "^8.1.0",
