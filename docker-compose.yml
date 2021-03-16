@@ -2,35 +2,27 @@ version: "3"
 services: 
   redis:
     image: redis
+    container_name: pangaea_redis
     networks:
       - webnet
     volumes:
       - redis-data:/var/lib/redis/data
     command: "redis-server"
-  db:
-    image: postgres
+  mongodb:
+    image: mongo
+    container_name: pangaea_mongodb
     networks:
       - webnet
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-  app:
-    build: .
-    env_file:
-      - ./.env
-    restart: always
-    networks:
-      - webnet
-    depends_on:
-      - redis
-      - db
-    ports:
-      - "5000:5000"
+      - mongo-data:/var/lib/mongodb/data
+    ports: 
+      - 27017:27017
+
 networks:
   webnet:
 volumes:
-  postgres-data:
+  mongo-data:
   redis-data:
