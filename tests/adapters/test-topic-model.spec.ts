@@ -14,16 +14,16 @@ describe("TopicModel", () => {
 
   test("It can create record in the db", async (done) => {
     const topic = await TopicModel.create({
-      name: "topic1",
+      name: "topic100",
       subscriptions: [
         {
           url: "https://wwww.example.com",
         },
       ],
     });
-    const result = await TopicModel.findOne({ name: "topic1" });
-    expect(topic.subscriptions[0].url).toEqual(result.subscriptions[0].url);
-    expect(topic.name).toBe(result.name);
+    const result = await TopicModel.findOne({ name: "topic100" });
+    expect(topic.subscriptions[0].url).toEqual(result?.subscriptions[0].url);
+    expect(topic.name).toBe(result?.name);
     done();
   });
 });

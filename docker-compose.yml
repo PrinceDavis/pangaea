@@ -8,6 +8,8 @@ services:
     volumes:
       - redis-data:/var/lib/redis/data
     command: "redis-server"
+    ports: 
+      - 6379:6379
   mongodb:
     image: mongo
     container_name: pangaea_mongodb
