@@ -3,7 +3,6 @@ import HttpStatus from "http-status";
 
 import { registerSubscriberSchema } from "./validation";
 import { RegisterSubscriber } from "../../usecases";
-import { Logger } from "../../adapters/logger";
 
 async function create(req: any, reply: any): Promise<void> {
   const handler = <RegisterSubscriber>(
@@ -12,20 +11,18 @@ async function create(req: any, reply: any): Promise<void> {
 
   const { DATABASE_ERROR, SUCCESS, ERROR } = handler.events;
   handler.on(SUCCESS, (res) => reply.send(res));
-  handler.on(DATABASE_ERROR, (ex) => {
-    Logger.error(ex);
+  handler.on(DATABASE_ERROR, (ex) =>
     reply.code(HttpStatus.BAD_REQUEST).send({
       error: "DatabaseError",
       message: ex,
-    });
-  });
-  handler.on(ERROR, (ex) => {
-    Logger.error(ex);
+    })
+  );
+  handler.on(ERROR, () =>
     reply.code(HttpStatus.INTERNAL_SERVER_ERROR).send({
       error: "Internal Server Error",
       message: "The server is unable to handle this request",
-    });
-  });
+    })
+  );
   handler.execute({ name: req.params.topic, subscriber: req.body.url });
 }
 

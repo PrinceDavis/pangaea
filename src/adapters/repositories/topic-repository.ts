@@ -12,7 +12,13 @@ export class TopicRepository implements TopicRepositoryI {
 
   async add(input: TopicI): Promise<TopicDocument> {
     try {
-      const topic = await this.model.create(input);
+      let topic = await this.model.findOne({ name: input.name });
+      if (topic) {
+        topic.subscriptions = topic.subscriptions.concat(input.subscriptions);
+        await topic.save();
+      } else {
+        topic = await this.model.create(input);
+      }
       return topic;
     } catch (ex) {
       ex.type = "DatabaseError";

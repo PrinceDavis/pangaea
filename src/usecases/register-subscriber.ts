@@ -1,4 +1,5 @@
-import { TopicRepositoryI } from "../adapters/repositories/topic-repository";
+import { TopicRepositoryI } from "../adapters/repositories";
+import { Logger } from "../adapters/logger";
 import { UseCase } from "./usecase";
 
 interface ExecI {
@@ -23,13 +24,13 @@ export class RegisterSubscriber extends UseCase {
       });
       this.emit(SUCCESS, {
         topic: topic.name,
-        url: topic.subscriptions[0].url,
+        url: subscriber,
       });
     } catch (ex) {
+      Logger.error(ex);
       if (ex.type === "DatabaseError") {
         this.emit(DATABASE_ERROR, ex);
       } else {
-        console.log(ex);
         this.emit(ERROR, ex);
       }
     }
