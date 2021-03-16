@@ -1,2 +1,2 @@
-yarn migrate
+# yarn migrate
 yarn serve

@@ -22,6 +22,18 @@ services:
       - mongo-data:/var/lib/mongodb/data
     ports: 
       - 27017:27017
+  app:
+    build: .
+    env_file:
+      - ./.env
+    restart: always
+    networks:
+      - webnet
+    depends_on:
+      - mongodb
+      - redis
+    ports:
+      - "6000:5000"
 
 networks:
   webnet:
