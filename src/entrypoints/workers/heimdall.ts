@@ -1,11 +1,12 @@
 import redis from "redis";
-import { config } from "../../adapters/config";
+
+import { redisClientFactory } from "../../adapters/redis-client";
 import { Logger } from "../../adapters/logger";
 
 export class Heimdall {
   private redisClient: redis.RedisClient;
   constructor() {
-    this.redisClient = redis.createClient({ url: config.db.redisUrl });
+    this.redisClient = redisClientFactory();
     this.redisClient.subscribe("SENDREQUEST");
   }
 

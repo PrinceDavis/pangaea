@@ -37,9 +37,4 @@ export class RegisterSubscriber extends UseCase {
   }
 }
 
-RegisterSubscriber.setEvents([
-  "DATABASE_ERROR",
-  "BAD_PARAMETERS",
-  "SUCCESS",
-  "ERROR",
-]);
+RegisterSubscriber.setEvents(["DATABASE_ERROR", "SUCCESS", "ERROR"]);

@@ -2,6 +2,7 @@ import { TopicDocument, TopicI, TopicModel } from "../models";
 
 export interface TopicRepositoryI {
   add(input: TopicI): Promise<TopicDocument>;
+  fetchSubscribers(topicName: string): Promise<string[] | undefined>;
 }
 export class TopicRepository implements TopicRepositoryI {
   private model: typeof TopicModel;
@@ -24,5 +25,10 @@ export class TopicRepository implements TopicRepositoryI {
       ex.type = "DatabaseError";
       throw ex;
     }
+  }
+
+  async fetchSubscribers(topicName: string): Promise<string[] | undefined> {
+    const topic = await this.model.findOne({ name: topicName });
+    return topic?.subscriptions.map((subscriber) => subscriber.url);
   }
 }
