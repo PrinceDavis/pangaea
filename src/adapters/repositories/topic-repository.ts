@@ -1,6 +1,9 @@
 import { TopicDocument, TopicI, TopicModel } from "../models";
 
-export class TopicRepository {
+export interface TopicRepositoryI {
+  add(input: TopicI): Promise<TopicDocument>;
+}
+export class TopicRepository implements TopicRepositoryI {
   private model: typeof TopicModel;
 
   constructor({ topicModel }: { topicModel: typeof TopicModel }) {
