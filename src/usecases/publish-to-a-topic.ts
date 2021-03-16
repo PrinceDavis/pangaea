@@ -26,14 +26,14 @@ export class PublishToATopic extends UseCase {
   async execute({ topic, body }: ExecI): Promise<void> {
     const { SUCCESS, ERROR, DATABASE_ERROR } = this.events;
     try {
-      const subscribes = await this.repository.fetchSubscribers(topic);
-      if (!subscribes?.length) {
+      const subscribers = await this.repository.fetchSubscribers(topic);
+      if (!subscribers?.length) {
         this.emit(DATABASE_ERROR);
         return;
       }
       this.redisClient.publish(
         "SENDREQUEST",
-        JSON.stringify({ subscribes, body })
+        JSON.stringify({ subscribers, body })
       );
       this.emit(SUCCESS);
     } catch (ex) {
