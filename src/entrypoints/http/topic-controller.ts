@@ -46,7 +46,7 @@ async function create(req: any, reply: any): Promise<void> {
       message: "The server is unable to handle this request",
     })
   );
-  handler.execute({ name: req.params.topic, subscriber: req.body });
+  handler.execute({ name: req.params.topic, subscriber: req.body.url });
 }
 
 export const TopicController = {

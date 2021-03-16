@@ -13,7 +13,7 @@ export class Heimdall {
   async listen(): Promise<void> {
     this.redisClient.on("message", (channel: string, message: string) => {
       Logger.info(`Message from ${channel}`);
-      //   this.handler.execute(JSON.parse(message));
+      Logger.info(JSON.parse(message));
     });
   }
 }

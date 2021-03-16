@@ -21,6 +21,7 @@ describe("TopicModel", () => {
         },
       ],
     });
+
     const result = await TopicModel.findOne({ name: "topic100" });
     expect(topic.subscriptions[0].url).toEqual(result?.subscriptions[0].url);
     expect(topic.name).toBe(result?.name);
