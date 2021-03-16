@@ -1,10 +1,17 @@
-import mongoose from "mongoose";
+import { model, Schema, Model, Document } from "mongoose";
 
-const schema = new mongoose.Schema({
+export interface TopicI {
+  name: string;
+  subscriptions: { url: string }[];
+}
+
+const schema: Schema = new Schema({
   name: { type: String, required: true },
   subscriptions: [{ url: { type: String, require: true } }],
   created: { type: Date, default: new Date() },
   updatedAt: { type: Date, default: new Date() },
 });
 
-export const TopicModel = mongoose.model("topics", schema);
+export interface TopicDocument extends TopicI, Document {}
+
+export const TopicModel: Model<TopicDocument> = model("topics", schema);
